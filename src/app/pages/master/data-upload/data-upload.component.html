@@ -1,0 +1,305 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+        <div class="row justify-content-between">
+            <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100 hide-hint">
+                    <input matInput placeholder="Search Data Upload"
+                        (keyup)="applyFilter($any($event.target).value)" />
+                    <mat-icon matSuffix>
+                        <i-tabler name="search" class="icon-20"></i-tabler>
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+                <input type="file" accept=".xlsx, .xls" hidden #excelInput (change)="onExcelUpload($event)" />
+                <button mat-flat-button style="background-color: #ecbd24; color: #000;" (click)="excelInput.click()">
+                    Upload Excel
+                </button>
+
+            </div>
+
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+        <div class="table-responsive">
+            <table mat-table [dataSource]="datauploadDataSource" class="w-100">
+                <ng-container matColumnDef="srno">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Invoice No</th>
+                    <td mat-cell *matCellDef="let element">{{element.InvoiceNo }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="invoiceDate">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Invoice Date</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.InvoiceDate }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="partyName">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Party Name</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.PartyName }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gstRegType">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">GstReg Type</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.GstRegType }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gSTIN">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">GSTIN</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.GSTIN }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="InvoiceType">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Invoice Type</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.InvoiceType }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="IsReverse">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">IsReverse</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.IsReverse }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="State">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">State</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.State }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ItemName">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">ItemName</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.ItemName }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="HSNCode">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">HSNCode</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.HSNCode }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Qty">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Qty</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.Qty }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Rate">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Rate</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.Rate }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GrossAmount">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">GrossAmount</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.GrossAmount }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="SGSTRate">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">SGSTRate</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.SGSTRate }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="SGSTAmount">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">SGSTAmount</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.SGSTAmount }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CGSTRate">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">CGSTRate</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.CGSTRate }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CGSTAmount">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">CGSTAmount</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.CGSTAmount }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="IGSTAmount">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">IGSTAmount</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.IGSTAmount }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="IGSTRate">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">IGSTRate</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.IGSTRate }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Cess">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Cess</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.Cess }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="NetTotal">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">NetTotal</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.NetTotal }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row" style="text-align: center;" *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                        No record found
+                    </td>
+                </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

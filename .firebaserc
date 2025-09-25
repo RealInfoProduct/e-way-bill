@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "eway-bill-6782a"
+  },
+  "targets": {
+    "eway-bill-6782a": {
+      "hosting": {
+        "newsite": [
+          "ewaybill"
+        ]
+      }
+    }
+  }
+}

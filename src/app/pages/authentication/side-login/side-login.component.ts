@@ -1,0 +1,184 @@
+import { Component } from '@angular/core';
+import { CoreService } from 'src/app/services/core.service';
+import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { MaterialModule } from '../../../material.module';
+import { NgFor, NgIf } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { LoaderService } from 'src/app/services/loader.service';
+import { TranslateService } from '@ngx-translate/core';
+
+@Component({
+  selector: 'app-side-login',
+  standalone: true,
+  imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule, NgIf , NgFor],
+  templateUrl: './side-login.component.html',
+})
+export class AppSideLoginComponent {
+  options = this.settings.getOptions();
+  accountYearList:any = [];
+  yearBase = 2000;
+  financialYear:any
+  accountExpiryError = false;
+  userList:any;
+
+  constructor(private settings: CoreService,
+    private router: Router,
+    private authService: AuthService,
+    private firebaseService: FirebaseService,
+    private _snackBar: MatSnackBar,
+    private loaderService: LoaderService,
+    private translate: TranslateService,
+  ) {
+    this.year()
+   }
+
+  form = new FormGroup({
+    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    password: new FormControl('', [Validators.required]),
+    accountYear: new FormControl('', [Validators.required])
+  });
+
+
+  ngOnInit(): void {
+    this.firebaseService.getAllUsers().subscribe((res => {
+          if (res) {
+            this.userList = res;
+          }
+    }));
+  }
+
+  get f() {
+    return this.form.controls;
+  }
+
+  submit() {
+    this.loaderService.setLoader(true);
+  //   if(!domainName){
+  //     this.authService.signIn(this.form.value.uname, this.form.value.password).subscribe((res) => {
+  
+  //       if (res) {
+  //         this.firebaseService.getUserList().subscribe((res => {
+  //           if (res) {
+  //             const userData: any = res.find((id: any) => id.email === this.form.value.uname && id.password === this.form.value.password)
+  //             // const date = new Date(userData?.expiry?.seconds * 1000);
+  //             // const today = new Date();
+  //             // today.setHours(0, 0, 0, 0);
+  //             // localStorage.setItem('expiryTimeSlot', JSON.stringify(userData));
+  //             // if (userData && (date > today)) {
+  //               this.commonResponse(userData);
+  //             } 
+  //             // else {
+  //             //   this.loaderService.setLoader(false)
+  //             //   this.router.navigate(['/authentication/side-login']);
+  //             //   this.accountExpiryError = true;
+  //             // }
+  //           // }
+  //         }))
+  //       }
+  //     }, (err) => {
+  //       this.openConfigSnackBar(err.error.error.message)
+  //       this.loaderService.setLoader(false)
+  
+  //     })
+  //   } else {
+     
+  // }
+
+    const userData = this.userList.find((id: any) => id.email === this.form.value.uname && id.password === this.form.value.password)
+    if (userData) {
+      if (userData.isActive) {
+        this.commonResponse(userData);
+      } else {
+        this.openConfigSnackBar('user can not active !!')
+        this.loaderService.setLoader(false)
+      }
+    } else {
+      this.openConfigSnackBar('Invalid user details !!')
+      this.loaderService.setLoader(false)
+    }
+  }
+
+  // submit() {
+  //   debugger
+  //   this.loaderService.setLoader(true)
+  //   this.authService.signIn(this.form.value.uname, this.form.value.password).subscribe((res) => {
+
+  //     if (res) {
+  //       this.firebaseService.getUserList().subscribe((res => {
+  //         if (res) {
+  //           const userData: any = res.find((id: any) => id.email === this.form.value.uname && id.password === this.form.value.password)
+  //           if (userData) {
+  //             if (userData.isActive) {
+  //               window.localStorage.setItem('userId', (userData.id));
+  //               const accountYear :any = this.form.value.accountYear;
+  //               localStorage.setItem('accountYear', accountYear.year);
+  //               this.translate.setDefaultLang('en');
+  //               localStorage.setItem("languageCode" , 'en')
+  //               this.openConfigSnackBar('user login successfully')
+  //               this.router.navigate(['/dashboards/dashboard1']);
+  //               this.loaderService.setLoader(false)
+  //             } else {
+  //               this.openConfigSnackBar('user can not active !!')
+  //               this.loaderService.setLoader(false)
+
+  //             }
+  //           }
+  //         }
+  //       }))
+  //     }
+  //   }, (err) => {
+  //     this.openConfigSnackBar(err.error.error.message)
+  //     this.loaderService.setLoader(false)
+
+  //   })
+  // }
+
+
+  commonResponse(userData: any){
+      if (userData.isActive) {
+        window.localStorage.setItem('userId', (userData.id));
+        window.localStorage.setItem('userName', (userData.firstName));
+        window.localStorage.setItem('role', (userData.role));
+        const accountYear :any = this.form.value.accountYear;
+        localStorage.setItem('accountYear', accountYear.year);
+        this.translate.setDefaultLang('en');
+        localStorage.setItem("languageCode" , 'en')
+        this.openConfigSnackBar('user login successfully')
+        this.router.navigate(['/dashboards/dashboard1']);
+        this.loaderService.setLoader(false)
+      } else {
+        this.openConfigSnackBar('user can not active !!')
+        this.loaderService.setLoader(false)
+      }
+  }
+
+  openConfigSnackBar(snackbarTitle: any) {
+    this._snackBar.open(snackbarTitle, 'Splash', {
+      duration: 2 * 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
+  year(){
+    for (let i = 20; i < 500; i++) {
+      let currentYear = this.yearBase + i;
+      let nextYear = this.yearBase + (i + 1);
+      this.accountYearList.push({ id: i, year: currentYear + '-' + (nextYear).toString().slice(2) }); 
+    }
+  
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    
+    if(currentMonth > 2){
+      this.financialYear = currentYear + '-' + (currentYear + 1).toString().slice(2)    
+    }else{
+      this.financialYear = (currentYear - 1) + '-' + currentYear.toString().slice(2)
+    }
+    this.form.controls['accountYear'].setValue(this.accountYearList.find((id:any)=> id.year === this.financialYear))
+   }
+
+
+}

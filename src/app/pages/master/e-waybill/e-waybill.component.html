@@ -1,0 +1,505 @@
+<form [formGroup]="ewaybillForm">
+    <mat-card class="cardWithShadow m-15">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="sublabel">Transaction Detalls</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <mat-label class="f-w-700">Supply Type:</mat-label>
+                </div>
+                <div class="col-lg-9">
+                    <mat-label class="f-w-700">Sub Type:</mat-label>
+                </div>
+                <div class="col-lg-3">
+                    <mat-radio-group formControlName="supplytype" class="d-block" required>
+                        <mat-radio-button *ngFor="let item of supplytype" [value]="item">
+                            {{ item }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-lg-9">
+                    <mat-radio-group formControlName="subtype" class="d-block" required>
+                        <mat-radio-button *ngFor="let item of subtype" [value]="item">
+                            {{ item }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="row m-t-10">
+                <div class="col-lg-3">
+                    <mat-label class="f-w-700">Document Type:</mat-label>
+                </div>
+                <div class="col-lg-3">
+                    <mat-label class="f-w-700">Document No:</mat-label>
+                </div>
+                <div class="col-lg-3">
+                    <mat-label class="f-w-700">Document Date:</mat-label>
+                </div>
+                <div class="col-lg-3">
+                    <mat-label class="f-w-700">Transaction Type:</mat-label>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <mat-select value="no" formControlName="documentType" placeholder="Document Type">
+                            <mat-option *ngFor="let item of documentTypeList" [value]="item">{{item}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="text" matInput formControlName="documentNo" placeholder="Document No"
+                            class="text-uppercase" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input matInput [matDatepicker]="picker" formControlName="documentDate" required />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <mat-select value="no" formControlName="transactionType" placeholder="Document Type">
+                            <mat-option *ngFor="let item of transactionTypeList" [value]="item">{{item}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cardWithShadow m-15">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="sublabel">Bill From</h2>
+                    <div class="row">
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Name:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="name" placeholder="Name" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">GSTIN:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="gstin" placeholder="GSTIN" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">State:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="state" placeholder="State" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <h2 class="sublabel">Dispatch From</h2>
+                    <div class="row">
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Address:</mat-label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="address1" placeholder="Address1" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="address2" placeholder="Address2" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Place:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="place" placeholder="Place" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Pincode:</mat-label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="pincode" placeholder="Pincode" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="state" placeholder="State" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cardWithShadow m-15">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="sublabel">Bill To</h2>
+                    <div class="row">
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Name:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="name" placeholder="Name" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">GSTIN:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="gstin" placeholder="GSTIN" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">State:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="state" placeholder="State" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <h2 class="sublabel">Ship To</h2>
+                    <div class="row">
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Address:</mat-label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="address1" placeholder="Address1" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="address2" placeholder="Address2" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Place:</mat-label>
+                        </div>
+                        <div class="col-lg-10">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="place" placeholder="Place" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            <mat-label class="f-w-700">Pincode:</mat-label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="pincode" placeholder="Pincode" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="text" matInput formControlName="state" placeholder="State" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cardWithShadow m-15">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="sublabel">Item Details</h2>
+                </div>
+            </div>
+            <div formArrayName="itemDetails" class="m-t-10">
+                <div class="row" *ngFor="let itemGroup of itemDetails.controls; let i = index" [formGroupName]="i">
+
+                    <div class="col-lg-2">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">Product Name</mat-label>
+                            <input type="number" matInput required formControlName="productName"
+                                placeholder="Product Name" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">Description</mat-label>
+                            <input type="number" matInput required formControlName="description"
+                                placeholder="Description" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">HSN</mat-label>
+                            <input type="number" matInput required formControlName="hsn" placeholder="HSN" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">Quantity</mat-label>
+                            <input type="number" matInput required formControlName="quantity" placeholder="Quantity" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">Unit</mat-label>
+                            <input type="number" matInput required formControlName="unit" placeholder="Unit" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">Value/Taxable Value(Rs.)</mat-label>
+                            <input type="number" matInput required formControlName="taxableValue"
+                                placeholder="Taxable Value" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">CGST + SGST Rate(%)</mat-label>
+                            <input type="number" matInput required formControlName="cgstsgst"
+                                placeholder="CGST + SGST Rate(%)" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">IGST Rate(%)</mat-label>
+                            <input type="number" matInput required formControlName="igst" placeholder="IGST Rate(%)" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">CESS Adval Rate(%)</mat-label>
+                            <input type="number" matInput required formControlName="cESSAdvalRate"
+                                placeholder="CESS Adval Rate(%)" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-1">
+                        <mat-form-field appearance="outline" class="w-100 m-t-10">
+                            <mat-label class="f-w-700">CGST non.Advol. Rate</mat-label>
+                            <input type="number" matInput required formControlName="cGSTnonAdvol"
+                                placeholder="CGST non.Advol. Rate" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-1 d-flex align-items-center m-b-10">
+                        <a class="m-r-10 cursor-pointer" *ngIf="itemDetails.length > 1">
+                            <i-tabler name="trash" (click)="removeRentDetail(i)" class="icon-18"></i-tabler>
+                        </a>
+                        <a class="m-r-10 cursor-pointer">
+                            <i-tabler name="plus" (click)="addRentDetail()" class="icon-18"></i-tabler>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="row m-t-10">
+                <div class="col-lg-2">
+                    <mat-label class="f-w-700">Total Tax'ble Amount</mat-label>
+                </div>
+                <div class="col-lg-1">
+                    <mat-label class="f-w-700">CGST Amount</mat-label>
+                </div>
+                <div class="col-lg-1">
+                    <mat-label class="f-w-700">SGST Amount</mat-label>
+                </div>
+                <div class="col-lg-1">
+                    <mat-label class="f-w-700">IGST Amount</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-label class="f-w-700">CESS Advol Amount</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-label class="f-w-700">CESS Non Advol Amount</mat-label>
+                </div>
+                <div class="col-lg-1">
+                    <mat-label class="f-w-700">Other Amount(+/-)</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-label class="f-w-700">Total Inv. Amount</mat-label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="totalTaxbleAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-1">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="cGSTAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-1">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="sGSTAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-1">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="iGSTAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="cESSAdvolAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="cESSNonAdvolAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-1">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="otherAmount" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="number" matInput formControlName="totalInvAmount" />
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cardWithShadow m-15">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="sublabel">Transportation Details</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 d-flex align-items-center">
+                    <mat-label class="f-w-700">Transporter ID:</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input type="text" matInput formControlName="transporterID" placeholder="Transporter ID" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-1 d-flex align-items-center">
+                    <mat-label class="f-w-700">Transporter ID:</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input type="text" matInput formControlName="transporterID" placeholder="Transporter ID" />
+                    </mat-form-field>
+                </div>
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-11">
+                        <mat-label class="f-w-700">Auto Calculated PIN to PIN (in KM)</mat-label>
+                    </div>
+                    <div class="col-lg-1">
+                        268
+                    </div>
+                </div>
+                <div class="col-lg-1 d-flex align-items-center">
+                    <mat-label class="f-w-700">Transporter ID:</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input type="text" matInput formControlName="transporterID" placeholder="Transporter ID" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cardWithShadow m-15">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="sublabel">PART-B</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <mat-radio-group formControlName="modetype" class="d-block" required>
+                        <mat-label class="f-w-700">Mode:</mat-label>
+                        <mat-radio-button *ngFor="let item of Modetype" [value]="item">
+                            {{ item }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-lg-6">
+                    <mat-radio-group formControlName="vehicletype" class="d-block" required>
+                        <mat-label class="f-w-700">Vehicle Type:</mat-label>
+                        <mat-radio-button *ngFor="let item of vehicletype" [value]="item">
+                            {{ item }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="row m-t-10">
+                <div class="col-lg-2 d-flex align-items-center">
+                    <mat-label class="f-w-700">Vehicle No:</mat-label>
+                </div>
+                <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="text" matInput formControlName="vehicleNo" placeholder="Vehicle No" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2 d-flex align-items-center">
+                    <mat-label class="f-w-700">Transporter Doc.No. & Date:</mat-label>
+                </div>
+                <div class="col-lg-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <input type="text" matInput formControlName="transporterNo" placeholder="Transporter No" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input matInput [matDatepicker]="transporterDate" formControlName="transporterDate" required />
+                        <mat-datepicker-toggle matSuffix [for]="transporterDate"></mat-datepicker-toggle>
+                        <mat-datepicker #transporterDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <mat-divider></mat-divider>
+            <div class="row m-t-10">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4 button">
+                    <button mat-flat-button style="background-color: #ecbd24; color: #000;" (click)="Preview()">
+                        Preview</button>
+                    <button mat-flat-button color="primary" (click)="submit()"> Submit</button>
+                    <button mat-flat-button color="warn" (click)="exit()"> Exit</button>
+                </div>
+                <div class="col-lg-4"></div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>

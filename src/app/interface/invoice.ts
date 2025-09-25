@@ -1,0 +1,112 @@
+
+export interface AuthResponse {
+    idToken: string,
+    email: string,
+    refreshToken: string,
+    expiresIn: string,
+    localId: string
+    registerd?: boolean
+}
+
+export interface AdminRegisterUser {
+    id: string,
+    email: any,
+    password: any,
+    isActive: boolean
+}
+
+export interface PartyList {
+    id: string,
+    partyName: string,
+    partyAddress: string,
+    partyGstNo: string,
+    partyPanNo: string,
+    partyMobileNo: number,
+    userId: any
+    isFirm: any
+}
+
+export interface FirmList {
+    id: string,
+    header: string,
+    subHeader: string,
+    address: string,
+    gstNo: string,
+    panNo: string,
+    mobileNo: number,
+    personalMobileNo: number,
+    bankName: string,
+    accountholdersname: string;
+    bankIfsc: string,
+    bankAccountNo: number,
+    userId: any,
+    isInvoiceTheme: number
+
+}
+
+export interface ProductList {
+    id: string,
+    productName: string,
+    userId: any
+}
+
+export interface InvoiceList {
+    id: string;
+    accountYear: string;
+    cGST: any;
+    iGST: any;
+    tds: any;
+    date: string;
+    discount: number;
+    invoiceNumber: number;
+    sGST: number;
+    firmId: any;
+    partyId: any;
+    products: any;
+    userId: any;
+    finalSubAmount: any;
+    isPayment: boolean;
+    receivePayment: any;
+    paymentDays: number;
+}
+
+export interface IncomeList {
+    id: string,
+    incomename: string,
+    userId: any,
+    creditDate: string,
+    amount: number
+}
+
+export interface ExpensesList {
+    id: string,
+    expensesname: string,
+    userId: any,
+    creditDate: string,
+    description: string,
+    amount: number
+}
+
+export interface ExpensesmasterList {
+    id: string,
+    type: string
+}
+
+export interface UsersmasterList {
+    id: string,
+    firstName: string,
+    lastName: string,
+    userName: string,
+    email: any,
+    password: any,
+    userId: any,
+    role: any,
+    isActive:boolean
+}
+
+
+export interface DomainList {
+    id: string,
+    userId: any,
+    domianName: any[],
+}
