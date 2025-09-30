@@ -57,10 +57,10 @@ export class FirmMasterComponent implements OnInit {
 
   getFirmList() {
     this.loaderService.setLoader(true)
-    this.firebaseService.getAllFirm().subscribe((res: any) => {
+    this.firebaseService.getAllCommonmethod("FirmList").subscribe((res: any) => {
       if (res) {
         this.firmList = res.filter((id:any) => id.userId === localStorage.getItem("userId"))
-        this.firmDataSource = new MatTableDataSource(this.firmList);
+        this.firmDataSource = new MatTableDataSource(res);
         this.firmDataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)
       }

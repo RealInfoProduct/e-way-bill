@@ -37,7 +37,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-sm-12 col-md-3" *ngIf="!amountdata.isPayment">
+      <div class="col-12 col-sm-12 col-md-4" *ngIf="!amountdata.isPayment">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <mat-label>Payment Date</mat-label>
           <input matInput formControlName="paymentDate" [matDatepicker]="Date" placeholder="Enter payment date">
@@ -46,9 +46,9 @@
         </mat-form-field>
       </div>
 
-      <div class="col-12 col-sm-12 col-md-4" *ngIf="!amountdata.isPayment">
+      <div class="col-12 col-sm-12 col-md-3" *ngIf="!amountdata.isPayment">
         <button mat-flat-button 
-         color="primary" (click)="addPayment()">
+         color="primary" (click)="addPayment()" [disabled]="amountForm.invalid">
           Add Payment
         </button>
       </div>

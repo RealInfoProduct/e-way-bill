@@ -75,13 +75,13 @@ export class AppTopCardsComponent {
       this.topcards[2].title = res[2].TotalInvoice
       this.topcards[3].title = res[3].PendingBills
     })
-    this.firebaseService.getAllFirm().subscribe((res:any) => {
+    this.firebaseService.getAllCommonmethod("FirmList").subscribe((res:any) => {
       if (res) {        
         this.topcards[0].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
         this.loaderService.setLoader(false)
       }
     })
-    this.firebaseService.getAllParty().subscribe((res:any) => {
+    this.firebaseService.getAllCommonmethod("PartyList").subscribe((res:any) => {
       if (res) {        
         this.topcards[1].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
         this.loaderService.setLoader(false)

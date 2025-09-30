@@ -4,7 +4,8 @@ import { PartyList, FirmList, ProductList, InvoiceList, IncomeList, ExpensesList
 import { collection } from '@firebase/firestore';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Auth } from '@angular/fire/auth';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ import { from } from 'rxjs';
 export class FirebaseService {
 
 
-  constructor(private fService: Firestore, private authentication: Auth) { }
+  constructor(private fService: Firestore, private firestore: AngularFirestore) { }
 
 
   /////////////////////// registerUser List ////////////////////////
@@ -29,6 +30,13 @@ export class FirebaseService {
     return collectionData(dataRef, { idField: 'id' })
   }
 
+  ///////////////////////get Commonmethod Data ////////////////////////
+
+ getAllCommonmethod(collectionName: string): Observable<any[]> {
+    const userid = localStorage.getItem("userId")
+    return this.firestore.collection(collectionName, (ref: any) => ref.where('userId', '==', userid)).valueChanges();
+  }
+
 
   /////////////////////// Party List Data ////////////////////////
 
@@ -37,10 +45,10 @@ export class FirebaseService {
     return addDoc(collection(this.fService, 'PartyList'), payload)
   }
 
-  getAllParty() {
-    let dataRef = collection(this.fService, 'PartyList')
-    return collectionData(dataRef, { idField: 'id' })
-  }
+  // getAllParty() {
+  //   let dataRef = collection(this.fService, 'PartyList')
+  //   return collectionData(dataRef, { idField: 'id' })
+  // }
 
   deleteParty(deleteId: any) {
     let docRef = doc(collection(this.fService, 'PartyList'), deleteId);
@@ -60,10 +68,10 @@ export class FirebaseService {
     return addDoc(collection(this.fService, 'FirmList'), payload)
   }
 
-  getAllFirm() {
-    let dataRef = collection(this.fService, 'FirmList')
-    return collectionData(dataRef, { idField: 'id' })
-  }
+  // getAllFirm() {
+  //   let dataRef = collection(this.fService, 'FirmList')
+  //   return collectionData(dataRef, { idField: 'id' })
+  // }
 
   deleteFirm(deleteId: any) {
     let docRef = doc(collection(this.fService, 'FirmList'), deleteId);

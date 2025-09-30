@@ -59,10 +59,12 @@ export interface InvoiceData {
   editMode = false;
   nextId: number = 1;
   currentEditId: number
-
+ gstPrefixMatched: boolean = false;
   productList: any = []
   firmList: any = []
   invoiceList: any = []
+  selectedparty: any =[]
+  selectedFirm: any =[]
   maxInvoiceNumber: number = 0
   blobUrl :any
   addinvoiceDataSource = new MatTableDataSource(this.data);
@@ -83,6 +85,7 @@ export interface InvoiceData {
     this.getPartyList()
     this.getProductList()
     this.getFirmList()
+    this.gstreset()
     this.addinvoiceDataSource.paginator = this.paginator;
     if (this.loaderService.getInvoiceData()) {
       const getInvoiceData  = this.loaderService.getInvoiceData()
@@ -107,6 +110,38 @@ export interface InvoiceData {
       })
       } 
   }
+
+    gstreset() {
+      this.invoiceForm.get('sGST')?.valueChanges.subscribe(() => {
+        this.resetIGSTIfSGSTOrCGSTHasValue();
+      });
+
+      this.invoiceForm.get('cGST')?.valueChanges.subscribe(() => {
+        this.resetIGSTIfSGSTOrCGSTHasValue();
+      });
+
+      this.invoiceForm.get('iGST')?.valueChanges.subscribe(() => {
+        this.resetIGSTIfiGSTHasValue();
+      });
+    }
+
+    resetIGSTIfSGSTOrCGSTHasValue() {
+      const sGST = this.invoiceForm.get('sGST')?.value;
+      const cGST = this.invoiceForm.get('cGST')?.value;
+
+      if (sGST > 0 || cGST > 0) {
+        this.invoiceForm.get('iGST')?.reset(0);
+      }
+    }
+
+    resetIGSTIfiGSTHasValue() {
+      const iGST = this.invoiceForm.get('iGST')?.value;
+
+      if (iGST > 0) {
+        this.invoiceForm.get('sGST')?.reset(0);
+        this.invoiceForm.get('cGST')?.reset(0);
+      }
+    }
 
   buildForm() {
     this.invoiceForm = this.fb.group({
@@ -206,7 +241,7 @@ export interface InvoiceData {
     
   getPartyList() {
     this.loaderService.setLoader(true)
-    this.firebaseService.getAllParty().subscribe((res: any) => {
+    this.firebaseService.getAllCommonmethod('PartyList').subscribe((res: any) => {
       if (res) {
         this.partyList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
         this.loaderService.setLoader(false)
@@ -226,7 +261,7 @@ export interface InvoiceData {
     
   getFirmList() {
     this.loaderService.setLoader(true)
-    this.firebaseService.getAllFirm().subscribe((res: any) => {
+    this.firebaseService.getAllCommonmethod("FirmList").subscribe((res: any) => {
       if (res) {
         this.firmList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
         this.loaderService.setLoader(false)
@@ -310,7 +345,6 @@ export interface InvoiceData {
   transformInvoiceList(invoiceList: any[]): any {
     if (!invoiceList.length) return {};
 
-    // Initialize the single object with common fields from the first invoice
     const transformedObject :any = {
       // firmName: invoiceList[0].firm,
       firmId: invoiceList[0].firm.id,
@@ -328,7 +362,6 @@ export interface InvoiceData {
       products: []
     };
 
-    // Loop through the invoices to accumulate all products
     invoiceList.forEach((item :any) => {
       const product = {
         productName: item.product,
@@ -372,18 +405,36 @@ export interface InvoiceData {
     
   seletedFirm(event :any){
     this.getInvoiceList(event.value.id)    
+    this.gst(event,'firm')
     }
     
-  seletedParty(event: any) {
-    if (event.value.isFirm) {
-      this.invoiceForm.controls['firm'].setValue(this.firmList.find((id: any) => id.id === event.value.isFirm))
-      this.getInvoiceList(event.value.isFirm)
-    } else {
-      this.invoiceForm.controls['firm'].reset()
-      this.maxInvoiceNumber = 0
+    seletedParty(event: any) {
+      if (event.value.isFirm) {
+        this.invoiceForm.controls['firm'].setValue(this.firmList.find((id: any) => id.id === event.value.isFirm))
+        this.getInvoiceList(event.value.isFirm)
+      } 
+      this.gst(event, 'party')
+
     }
-  }
-  
+
+    gst(event: any, type: string) {
+
+      if(type === 'firm'){
+        this.selectedFirm = this.firmList.find((firm: any) => firm.id === event.value.id);
+      }else {
+         this.selectedparty = this.partyList.find((party: any) => party.id === event.value.id);
+      }
+      if (this.selectedFirm?.gstNo && this.selectedparty?.partyGstNo) {
+        const firmGst = this.selectedFirm.gstNo.substring(0, 2);   
+        const partyGst = this.selectedparty.partyGstNo.substring(0, 2);
+        if(firmGst === partyGst) {
+          this.gstPrefixMatched = true;
+      }else if(firmGst !== partyGst) {
+          this.gstPrefixMatched = false;
+      }
+    }
+    }
+
   submitInvoice(){
     const invoiceData = this.transformInvoiceList(this.data)  
     const finalSubAmount = this.calculateSubTotal(invoiceData)

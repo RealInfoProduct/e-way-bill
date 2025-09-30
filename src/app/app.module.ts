@@ -32,6 +32,8 @@ import { provideStorage, getStorage } from "@angular/fire/storage";
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { LoaderPageComponent } from './loader-page/loader-page.component';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
 
 
 export function HttpLoaderFactory(http: HttpClient): any {
@@ -57,7 +59,9 @@ export function HttpLoaderFactory(http: HttpClient): any {
       },
     }),
     NgScrollbarModule,
-    FullComponent
+    FullComponent,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
   ],
   exports: [TablerIconsModule ],
   bootstrap: [AppComponent],

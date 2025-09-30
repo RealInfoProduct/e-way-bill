@@ -1379,7 +1379,7 @@ export class PdfviewComponent  implements OnInit{
 
   getFirmList() {
     this.loaderService.setLoader(true)
-    this.firebaseService.getAllFirm().subscribe((res: any) => {
+    this.firebaseService.getAllCommonmethod("FirmList").subscribe((res: any) => {
       if (res) {
         this.firmList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
         this.loaderService.setLoader(false)
@@ -1389,7 +1389,7 @@ export class PdfviewComponent  implements OnInit{
 
   getPartyList() {
     this.loaderService.setLoader(true)
-    this.firebaseService.getAllParty().subscribe((res: any) => {
+    this.firebaseService.getAllCommonmethod('PartyList').subscribe((res: any) => {
       if (res) {
         this.partyList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
         this.loaderService.setLoader(false)
